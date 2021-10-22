@@ -140,9 +140,15 @@
       
       	\section*{Solution 2}
 	\begin{soln}
-		      The probability that $x=i$ occurs can be expressed as $\theta_i$, and the probability that $\hat{x}=j$ occurs can be expressed as $\theta_j$. Therefore, we can write $c_{i,j} = \theta_i \theta_i$.
-
-Under the knowledge of $\theta$, to minimize the expected value of $c_{i,j}$, it is better to set $\hat{x}$ to be the index representing the lowest probability among $\theta$ vector. Because $\theta_i$ is given and what  we can not control, $\theta_i$ is treated as a constant. As a result, to minimize $c_{i,j} = \theta_i \theta_i$, it is a necessary and sufficient condition to minimize $\theta_j$.	
+		$E[c_{ij}]$ can be formulated as follows.
+		\begin{equation*}
+		\begin{split}
+		E[c_{ij}] &= \frac{1}{k} (\theta_1 1[\hat{x} \neq 1] + \theta_2 1[\hat{x} \neq 2] + ... + \theta_k 1[\hat{x} \neq k] )\\
+		&= \frac{1}{k} ( (1 - \theta_1) 1[\hat{x} = 1] + (1 - \theta_2) 1[\hat{x} = 2] + ... + (1 - \theta_k) 1[\hat{x} = k]  ) \\
+			\end{split}
+		\end{equation*}	
+		In order to minimize $E[c_{ij}]$, we should choose $\hat{x}$ that minimizes the above equation. The strategy of the choice of $\hat{x}$, since we know $\theta$, we can choose the $i$ that minimizes $(1-\theta_i), i = 1, ..., k$, that is, the largest $\theta_i$ in $\theta$, as $\hat{x}$.
+	
 	\end{soln}
 	
 	\section*{Solution 3}
@@ -198,17 +204,17 @@ During the development of the above equation, I used the following:
 	\section*{Solution 4}
 	\subsection*{Solution 4.1}	
 	\begin{soln}
-	From the setting of this question, $N = 30$, $K_L = 3$, and $\alpha = 0.5$. From the setup of this question, $N = 30$, $K_L = 3$, and $\alpha = 0.5$. Using these, calculate the prior probabilities.
+	From the setup of this question, $N = 30$, $K_L = 3$, and $\alpha = 0.5$. Using these, calculate the prior probabilities. The total number of data is 30, e0-e9, j0-j9, s0-s9, of which 10 are in English.
 		\begin{equation*}\label{xx}
 			\begin{split}
 				\hat{p}_{\alpha}(y = e) &= \frac{\sum_{i=1}^{N} 1[y^{(i)} = e] + \alpha }{N + K_L \alpha} \\ 
-				&= \frac{10 + 0.5}{30 + 3*0.5} = \frac{3}{10} = 0.33 \\
+				&= \frac{10 + 0.5}{30 + 3*0.5} = \frac{1}{3}\\
 			\end{split}
 		\end{equation*}	
 		Similarly, the two prior probabilities of ta are calculated and the answers are as follows.
 		\begin{equation*}\label{xx}
 			\begin{split}
-				\hat{p}_{\alpha}(y = e) &= 	\hat{p}_{\alpha}(y = j) = \hat{p}_{\alpha}(y = s) =  \frac{3}{10} = 0.33 \\
+				\hat{p}_{\alpha}(y = e) &= 	\hat{p}_{\alpha}(y = j) = \hat{p}_{\alpha}(y = s) =  \frac{1}{3}\\
 			\end{split}
 		\end{equation*}	
 		
@@ -220,10 +226,10 @@ During the development of the above equation, I used the following:
 	From the given conditions, calculate the following using $p(y = e) = \frac{1}{3}$.
 		\begin{equation*}\label{xx}
 			\begin{split}
-				\theta_{i,e} = \hat{p}(c_i | y = e) = \frac{\hat{p}(c_i \cap y=e )}{\hat{p}(y=e)} = \frac{10 c_i}{3 M_e} 
+				\theta_{i,e} = \hat{p}(c_i | y = e) = \frac{\hat{p}(c_i \cap y=e )}{\hat{p}(y=e)} = 3 \hat{p}(c_i \cap y=e ) \\
 			\end{split}
 		\end{equation*}		
-	Here, $M_e$ represents the total number of characters in the data labeled $y = e$. Then, compute the $\theta$ for each $i$. $\theta_e$ is below:
+	Then, compute the $\theta$ for each $i$. $\theta_e$ is below.
 \begin{table}[ht]
  \caption{$\theta_e$}
  \centering
@@ -266,6 +272,7 @@ z & 0.0 \\
 	\clearpage
 	\subsection*{Solution 4.3}	
 	\begin{soln}
+	$\theta_j$, $\theta_s$,the class conditional probabilities for Japanese and Spanish are below.
 
 \begin{table}[h]
   \begin{minipage}[t]{.45\textwidth}
@@ -355,12 +362,13 @@ z & 0.0 \\
 	\clearpage
 	\subsection*{Solution 4.4}	
 	\begin{soln}
+	The bag-of-words vector x is below.
 	\begin{table}[ht]
  \caption{x of e10.txt}
  \centering
   \begin{tabular}{clll}
    \hline
-   character & probability \\
+   character & numbers \\
    \hline \hline
 a & 164 \\
 b & 32 \\
@@ -397,12 +405,14 @@ z & 2 \\
 	\clearpage
 	\subsection*{Solution 4.5}	
 	\begin{soln}
-	Taking the logarithm of the equation, we get $\log \hat{p}(x|y) = \sum_{i=1}^{d} x_i \theta_{i,y} $. Based on previous problems, $\log \hat{p}(x|y=e) = -7840.77$, $\log \hat{p}(x|y=j) = -8727.17$, and $\log \hat{p}(x|y=s) = -8478.20. $
+	Taking the logarithm of the equation, we get $\log \hat{p}(x|y) = \sum_{i=1}^{d} x_i \theta_{i,y} $. Based on previous problems, $\log \hat{p}(x|y=e) = -7840.77$, $\log \hat{p}(x|y=j) = -8727.17$, and $\log \hat{p}(x|y=s) = -8478.20$, meaning $\hat{p}(x|y=e) = e^{-7840.77}$, $\hat{p}(x|y=j) = e^{-8727.17}$, and $\hat{p}(x|y=s) = e^{-8478.20}$
 	\end{soln}
 	
 	\subsection*{Solution 4.6}	
 	\begin{soln}
-	Taking the logarithm of the Bayes law, we get $\log \hat{p}(y|x) = \log \hat{p}(x|y) + \log \hat{p}(y)$. Then, based on previous problems, $\log \hat{p}(y=e|x) = -7841.87$, $\log \hat{p}(y=j|x) = -8728.27$, and $\log \hat{p}(y=s|x) = -8479.30. $
+	Taking the logarithm of the Bayes law, we get $\log \hat{p}(y|x) = \log \hat{p}(x|y) + \log \hat{p}(y)$. Then, based on previous problems, $\log \hat{p}(y=e|x) = -7841.87$, $\log \hat{p}(y=j|x) = -8728.27$, and $\log \hat{p}(y=s|x) = -8479.30$, meaning $\hat{p}(y=e|x) = e^{-7841.87}$, $\hat{p}(y=j|x) = e^{-8728.27}$, and $\hat{p}(y=s|x) = e^{-8479.30} $. In the calculation, the results of prior probability in problem 4.2 are used.
+	
+	 Because $\hat{p}(y=e|x) > \hat{p}(y=s|x) > \hat{p}(y=j|x)$, it is concluded that the label of x should be "English." 
 	\end{soln}
 	
 	\subsection*{Solution 4.7}
@@ -434,17 +444,23 @@ z & 2 \\
 	Set $z$ as $z = W_2 \sigma(W_1 x)$ and $\delta_{i,j} = 1 ($when $i=j)$, $0$ otherwise.
 		\begin{equation*}\label{xx}
 			\begin{split}
-\frac{\partial L}{\partial x} &= \frac{\partial L}{\partial \hat{y}} \frac{\partial g(z)}{\partial z} \frac{\partial z}{\partial \sigma(W_1 x)} \frac{\partial \sigma(W_1 x)}{\partial (W_1 x)} \frac{\partial W_1 x}{\partial x} \\
-				&= - \sum^{k}_{i=1} \frac{y}{\hat{y}} y_i (\delta_{i,j} - y_j) W_2 \sigma(W_1 x ) (1- \sigma(W_1 x )) W_1 \\
-				&= (\hat{y} - y) W_2 \sigma(W_1 x ) (1- \sigma(W_1 x )) W_1 \\
+\frac{\partial L}{\partial W_2} &= \frac{\partial L}{\partial \hat{y}} \frac{\partial g(z)}{\partial z} \frac{\partial z}{\partial W_2} \\
+				&= - \sum^{k}_{i=1} \frac{y}{\hat{y}} y_i (\delta_{i,j} - y_j) \sigma(W_1 x ) \\
+				&= (\hat{y} - y) \sigma(W_1 x ) \\
+				\\
+\frac{\partial L}{\partial W_1} &= \frac{\partial L}{\partial \hat{y}} \frac{\partial g(z)}{\partial z} \frac{\partial z}{\partial \sigma(W_1 x)} \frac{\partial \sigma(W_1 x)}{\partial W_1 x} \frac{\partial W_1 x}{\partial W_1}   \\
+				&= - \sum^{k}_{i=1} \frac{y}{\hat{y}} y_i (\delta_{i,j} - y_j) W_2 \sigma(W_1 x) (1-\sigma(W_1 x) x \\
+				&= (\hat{y} - y) W_2 \sigma(W_1 x) (1-\sigma(W_1 x) x \\
 			\end{split}
 		\end{equation*}	
+		
 	\end{soln}
 	
 	\clearpage
 	
 	\subsection*{Solution 5.2}	
 	\begin{soln}
+	The number of epoch( = iteration / batch\_size) is 30. The final test error ( = 1 - accuracy ) is 0.0839. Learning curve by loss and the history of error are below.
 \begin{figure}[htbp]
 \begin{minipage}{0.5\hsize}
 \begin{center}
@@ -465,6 +481,7 @@ z & 2 \\
 
 	\subsection*{Solution 5.3}	
 	\begin{soln}
+	The number of epoch is 30. The final test error is 0.0352. Learning curve by loss and the history of error are below.
 \begin{figure}[htbp]
 \begin{minipage}{0.5\hsize}
 \begin{center}
@@ -488,38 +505,39 @@ z & 2 \\
 	
 	\subsection*{Solution 5.4.a}	
 	\begin{soln}
+	The number of epoch is 30. The final test error is 0.8865. Learning curve by loss and the history of error are below.
 \begin{figure}[htbp]
 \begin{minipage}{0.5\hsize}
 \begin{center}
-\caption{Learning curve by pytorch model}
+\caption{Learning curve by my model (zeros) }
 \includegraphics[width=50mm]{./img/my_lc_a.png}
 \end{center}
 \captionsetup{labelformat=empty}
 \end{minipage}
 \begin{minipage}{0.5\hsize}
 \begin{center}
-\caption{Test error by pytorch model}
+\caption{Test error by my model (zeros) }
 \includegraphics[width=50mm]{./img/my_er_a.png}
 \end{center}
 \captionsetup{labelformat=empty}
 \end{minipage}
 \end{figure}
-
 	\end{soln}
 
 	\subsection*{Solution 5.4.b}
 	\begin{soln}
+	The number of epoch is 30. The final test error is 0.1102. Learning curve by loss and the history of error are below.
 \begin{figure}[htbp]
 \begin{minipage}{0.5\hsize}
 \begin{center}
-\caption{Learning curve by pytorch model}
+\caption{Learning curve by my model (random) }
 \includegraphics[width=50mm]{./img/my_lc_b.png}
 \end{center}
 \captionsetup{labelformat=empty}
 \end{minipage}
 \begin{minipage}{0.5\hsize}
 \begin{center}
-\caption{Test error by pytorch model}
+\caption{Test error by pytorch model (random) }
 \includegraphics[width=50mm]{./img/my_er_b.png}
 \end{center}
 \captionsetup{labelformat=empty}
